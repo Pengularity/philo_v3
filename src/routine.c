@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 01:49:59 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/16 02:56:13 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/16 03:04:32 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,28 @@ static inline bool	sleep_and_think(t_philo *philo)
 	return (true);
 }
 
+bool	check_flag(t_args *args)
+{
+	pthread_mutex_lock(&args->is_dead_m);
+	if (args->is_dead >= 0)
+		return (pthread_mutex_unlock(&args->is_dead_m), false);
+	pthread_mutex_unlock(&args->is_dead_m);
+	pthread_mutex_lock(&args->num_satiated_m);
+	if (args->num_satiated)
+		return (pthread_mutex_unlock(&args->num_satiated_m), false);
+	pthread_mutex_unlock(&args->num_satiated_m);
+	return (true);
+}
+
 void	*philo_routine(void *void_philo)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)void_philo;
-	while (1)
+	while (!check_flag(philo->args))
 	{
+		if (!(philo->id & 1))
+			ft_sleep(500);
 		if (!eat(philo))
 			break ;
 		if (!sleep_and_think(philo))
