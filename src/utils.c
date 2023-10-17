@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 01:19:26 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/16 01:23:11 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/17 21:02:11 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,17 @@
 
 bool	ft_atol(long *nb, char *nbr)
 {
-	int	i;
+	int		i;
+	long	tmp;
 
 	i = 0;
 	*nb = 0;
 	while (nbr[i])
 	{
-		if (*nb > *nb * 10 + nbr[i] + 48)
+		tmp = *nb * 10 + (nbr[i] - 48);
+		if (tmp < *nb)
 			return (false);
-		*nb *= 10;
-		*nb += nbr[i] - 48;
+		*nb = tmp;
 		i++;
 	}
 	return (true);
@@ -31,19 +32,43 @@ bool	ft_atol(long *nb, char *nbr)
 
 bool	ft_atoi(int *nb, char *nbr)
 {
-	int	i;
+	int		i;
+	int		tmp;
 
-	*nb = 0;
 	i = 0;
+	*nb = 0;
 	while (nbr[i])
 	{
-		if (*nb > *nb * 10 + nbr[i] - 48)
+		tmp = *nb * 10 + (nbr[i] - 48);
+		if (tmp < *nb)
 			return (false);
-		*nb *= 10;
-		*nb += nbr[i] - 48;
+		*nb = tmp;
 		i++;
 	}
 	return (true);
 }
 
+int	is_num(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!str || str[0] == '\0')
+		return (0);
+	while (str[i] == '0')
+		i++;
+	while (str[i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (0);
+		i++;
+	}
+	return (i > 0);
+}
+
+void	free_args(t_args *args)
+{
+	free(args->philo);
+	free(args->fork);
+}
 

@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 01:49:59 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/16 03:04:32 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/17 21:43:58 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static inline bool	eat(t_philo *philo)
 	if (!pickup_forks(philo))
 		return (false);
 	if (!print_status(philo, GREEN, "is eating"))
-		return ((pthread_mutex_unlock(&philo->left_fork),
+		return ((pthread_mutex_unlock(philo->left_fork),
 				pthread_mutex_unlock(philo->right_fork), (false)));
 	pthread_mutex_lock(&philo->last_meal_m);
 	philo->last_meal = current_time();
@@ -77,13 +77,13 @@ static inline bool	sleep_and_think(t_philo *philo)
 bool	check_flag(t_args *args)
 {
 	pthread_mutex_lock(&args->is_dead_m);
-	if (args->is_dead >= 0)
+	if (args->is_dead <= 0)
 		return (pthread_mutex_unlock(&args->is_dead_m), false);
 	pthread_mutex_unlock(&args->is_dead_m);
-	pthread_mutex_lock(&args->num_satiated_m);
-	if (args->num_satiated)
-		return (pthread_mutex_unlock(&args->num_satiated_m), false);
-	pthread_mutex_unlock(&args->num_satiated_m);
+	pthread_mutex_lock(&args->all_ate_required_times_m);
+	if (args->all_ate_required_times <= 0)
+		return (pthread_mutex_unlock(&args->all_ate_required_times_m), false);
+	pthread_mutex_unlock(&args->all_ate_required_times_m);
 	return (true);
 }
 
@@ -100,7 +100,6 @@ void	*philo_routine(void *void_philo)
 			break ;
 		if (!sleep_and_think(philo))
 			break ;
-
 	}
 	return (NULL);
 }

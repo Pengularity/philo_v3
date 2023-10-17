@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 01:25:54 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/16 02:40:49 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/17 21:02:42 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,6 @@ bool	print_status(t_philo *philo, char *color, char *status)
 	ret = printf("%ld %d %s%s%s\n", time, philo->id, color, status, RESET);
 	pthread_mutex_unlock(&philo->args->print_m);
 	return (ret >= 0);
-}
-
-int	ft_error(char *str)
-{
-	ft_putstr_fd(RED "Error: ", 2);
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd(RESET "\n", 2);
-	return (0);
 }
 
 long int	current_time(void)
@@ -58,4 +50,27 @@ void	ft_sleep(long time_in_ms)
 			usleep((time_in_ms - elapsed_time) * 1000);
 		elapsed_time = current_time() - start_time;
 	}
+}
+
+static void	ft_putstr_fd(char *str, int fd)
+{
+	int	i;
+
+	i = 0;
+	if (fd >= 0)
+	{
+		while (str[i])
+		{
+			write(fd, &str[i], 1);
+			i++;
+		}
+	}
+}
+
+int	ft_error(char *str)
+{
+	ft_putstr_fd(RED "Error: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(RESET "\n", 2);
+	return (0);
 }
