@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 01:49:59 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/18 11:55:37 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/18 12:30:28 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static inline bool	eat(t_philo *philo)
 	ft_sleep(philo->args->time_to_sleep);
 	pthread_mutex_lock(&philo->times_eaten_m);
 	philo->times_eaten++;
-	printf("philo %d has eaten %d times\n", philo->id, philo->times_eaten);
 	pthread_mutex_unlock(&philo->times_eaten_m);
 	if (philo->id & 1)
 	{

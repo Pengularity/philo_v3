@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 18:46:48 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/18 11:45:23 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/18 12:25:21 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,6 @@
 static inline bool	is_dead(t_philo *philo)
 {
 	long	time;
-
-	if (!philo)
-	{
-		printf("philo structure not initialized");
-		return (false);
-	}
 
 	time = current_time();
 	pthread_mutex_lock(&philo->last_meal_m);
@@ -56,28 +50,25 @@ static inline bool	ate_enough(t_args *args)
 
 	if (args->num_must_eat >= 0)
 	{
-		printf("must eat %d meals\n", args->num_must_eat);
 		i = 0;
 		while (i < args->num_philo)
 		{
 			pthread_mutex_lock(&args->philo[i].times_eaten_m);
-			if (args->philo[i].times_eaten <= args->num_must_eat)
+			if (args->philo[i].times_eaten < args->num_must_eat)
 			{
-				printf("times eaten : %d\n", args->philo->times_eaten);
 				pthread_mutex_unlock(&args->philo[i].times_eaten_m);
 				break ;
 			}
 			pthread_mutex_unlock(&args->philo[i].times_eaten_m);
 			i++;
 		}
-		printf("number of philo satiated : %d\n", i);
 		if (i == args->num_philo)
 		{
 			pthread_mutex_lock(&args->all_ate_required_times_m);
 			args->all_ate_required_times = 1;
 			pthread_mutex_unlock(&args->all_ate_required_times_m);
+			return (true);
 		}
-		return (true);
 	}
 	return (false);
 }
@@ -86,7 +77,7 @@ void	monitor_status(t_args *args)
 {
 	int	i;
 
-	usleep(500);
+	usleep(100);
 	while (!check_death(args) && !ate_enough(args))
 		ft_sleep(500);
 	i = 0;

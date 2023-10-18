@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 01:25:54 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/18 11:23:48 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/18 12:29:38 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,25 +67,10 @@ void	ft_sleep(long time_in_ms)
 	}
 }
 
-static void	ft_putstr_fd(char *str, int fd)
+void	free_args(t_args *args)
 {
-	int	i;
-
-	i = 0;
-	if (fd >= 0)
-	{
-		while (str[i])
-		{
-			write(fd, &str[i], 1);
-			i++;
-		}
-	}
-}
-
-int	ft_error(char *str)
-{
-	ft_putstr_fd(RED "Error: ", 2);
-	ft_putstr_fd(str, 2);
-	ft_putstr_fd(RESET "\n", 2);
-	return (0);
+	if (args->all_ate_required_times == 1)
+		printf(B_GREEN "Each philo ate %d times\n", args->num_must_eat);
+	free(args->philo);
+	free(args->fork);
 }

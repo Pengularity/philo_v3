@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 01:19:26 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/17 21:02:11 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/18 12:13:19 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,25 @@ int	is_num(char *str)
 	return (i > 0);
 }
 
-void	free_args(t_args *args)
+static void	ft_putstr_fd(char *str, int fd)
 {
-	free(args->philo);
-	free(args->fork);
+	int	i;
+
+	i = 0;
+	if (fd >= 0)
+	{
+		while (str[i])
+		{
+			write(fd, &str[i], 1);
+			i++;
+		}
+	}
 }
 
+int	ft_error(char *str)
+{
+	ft_putstr_fd(RED "Error: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(RESET "\n", 2);
+	return (0);
+}
