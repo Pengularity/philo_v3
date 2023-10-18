@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 01:49:59 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/18 14:40:30 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/18 16:43:15 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static inline bool	pickup_forks(t_philo *philo)
 	if (philo->id & 1)
 	{
 		pthread_mutex_lock(philo->left_fork);
-		if (!print_status(philo, WHITE, "has taken a fork"))
-			return (pthread_mutex_unlock(philo->left_fork), false);
+		// if (!print_status(philo, WHITE, "has taken a fork"))
+		// 	return (pthread_mutex_unlock(philo->left_fork), false);
 		pthread_mutex_lock(philo->right_fork);
 		if (!print_status(philo, WHITE, "has taken a fork"))
 			return (pthread_mutex_unlock(philo->left_fork),
@@ -27,8 +27,8 @@ static inline bool	pickup_forks(t_philo *philo)
 	else
 	{
 		pthread_mutex_lock(philo->right_fork);
-		if (!print_status(philo, WHITE, "has taken a fork"))
-			return (pthread_mutex_unlock(philo->right_fork), false);
+		// if (!print_status(philo, WHITE, "has taken a fork"))
+		// 	return (pthread_mutex_unlock(philo->right_fork), false);
 		pthread_mutex_lock(philo->left_fork);
 		if (!print_status(philo, WHITE, "has taken a fork"))
 			return (pthread_mutex_unlock(philo->left_fork),
@@ -67,10 +67,10 @@ static inline bool	eat(t_philo *philo)
 static inline bool	sleep_and_think(t_philo *philo)
 {
 	int	intervals;
-	int interval_duration;
+	int	interval_duration;
 	int	i;
 
-	intervals = 100;
+	intervals = 50;
 	interval_duration = (philo->args->time_to_sleep * 1000) / intervals;
 	i = 0;
 	if (!print_status(philo, BLUE, "is sleeping"))
@@ -84,6 +84,7 @@ static inline bool	sleep_and_think(t_philo *philo)
 		pthread_mutex_unlock(&philo->args->is_dead_m);
 		i++;
 	}
+	// ft_sleep(philo->args->time_to_sleep);
 	if (!print_status(philo, YELLOW, "is thinking"))
 		return (false);
 	return (true);
@@ -121,8 +122,8 @@ void	*philo_routine(t_philo *philo)
 			break ;
 		if (!sleep_and_think(philo))
 			break ;
-		// ft_sleep((philo->args->time_to_eat > philo->args->time_to_sleep)
-		// 	* (philo->args->time_to_eat - philo->args->time_to_sleep) + 100);
+		usleep((philo->args->time_to_eat > philo->args->time_to_sleep)
+			* (philo->args->time_to_eat - philo->args->time_to_sleep) + 25);
 	}
 	return (NULL);
 }
