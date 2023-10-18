@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 01:25:54 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/18 16:47:12 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/18 17:16:30 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	ft_sleep(long time_in_ms)
 void	free_args(t_args *args)
 {
 	if (args->all_ate_required_times == 1)
-		printf(B_GREEN "Each philo ate %d times\n", args->num_must_eat);
+		printf(GREEN "Each philo ate %d times\n", args->num_must_eat);
 	free(args->philo);
 	free(args->fork);
 }

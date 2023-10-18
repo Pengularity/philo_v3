@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 18:46:48 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/18 14:40:55 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/18 17:15:35 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static inline bool	check_death(t_args *args)
 			pthread_mutex_lock(&args->is_dead_m);
 			args->is_dead = 1;
 			pthread_mutex_unlock(&args->is_dead_m);
-			print_status(&args->philo[i], RED, "died");
+			print_status(&args->philo[i], YELLOW, "died");
 			return (true);
 		}
 		i++;

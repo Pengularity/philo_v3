@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 01:49:59 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/18 17:04:39 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/18 17:16:48 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,20 @@ static inline bool	pickup_forks(t_philo *philo)
 	if (philo->id & 1)
 	{
 		pthread_mutex_lock(philo->left_fork);
-		if (!print_status(philo, WHITE, "has taken a fork"))
+		if (!print_status(philo, GREY, "has taken a fork"))
 			return (pthread_mutex_unlock(philo->left_fork), false);
 		pthread_mutex_lock(philo->right_fork);
-		if (!print_status(philo, WHITE, "has taken a fork"))
+		if (!print_status(philo, GREY, "has taken a fork"))
 			return (pthread_mutex_unlock(philo->left_fork),
 				pthread_mutex_unlock(philo->right_fork), false);
 	}
 	else
 	{
 		pthread_mutex_lock(philo->right_fork);
-		if (!print_status(philo, WHITE, "has taken a fork"))
+		if (!print_status(philo, GREY, "has taken a fork"))
 			return (pthread_mutex_unlock(philo->right_fork), false);
 		pthread_mutex_lock(philo->left_fork);
-		if (!print_status(philo, WHITE, "has taken a fork"))
+		if (!print_status(philo, GREY, "has taken a fork"))
 			return (pthread_mutex_unlock(philo->left_fork),
 				pthread_mutex_unlock(philo->right_fork), false);
 	}
@@ -41,7 +41,7 @@ static inline bool	eat(t_philo *philo)
 {
 	if (!pickup_forks(philo))
 		return (false);
-	if (!print_status(philo, GREEN, "is eating"))
+	if (!print_status(philo, RED, "is eating"))
 		return ((pthread_mutex_unlock(philo->left_fork),
 				pthread_mutex_unlock(philo->right_fork), (false)));
 	pthread_mutex_lock(&philo->last_meal_m);
@@ -84,7 +84,7 @@ static inline bool	sleep_and_think(t_philo *philo)
 		pthread_mutex_unlock(&philo->args->is_dead_m);
 		i++;
 	}
-	if (!print_status(philo, YELLOW, "is thinking"))
+	if (!print_status(philo, GREEN, "is thinking"))
 		return (false);
 	return (true);
 }
@@ -107,7 +107,7 @@ void	*philo_routine(t_philo *philo)
 	if (philo->args->num_philo == 1)
 	{
 		pthread_mutex_lock(philo->left_fork);
-		print_status(philo, WHITE, "has taken a fork");
+		print_status(philo, GREY, "has taken a fork");
 		while (check_flag(philo->args))
 			ft_sleep(125);
 		pthread_mutex_unlock(philo->left_fork);

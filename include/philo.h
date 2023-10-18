@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 00:46:09 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/18 13:23:58 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/18 17:16:21 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define GREEN "\033[92m"
 # define BLUE "\033[94m"
 # define YELLOW "\033[93m"
-# define B_GREEN "\033[92m"
+# define GREY "\033[90m"
 # define RESET "\033[0m"
 
 typedef struct s_philo
