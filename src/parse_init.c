@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 19:51:00 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/17 21:47:39 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/18 11:11:30 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	philo_init(t_args *args)
 		(args->philo)[i].last_meal = 0;
 		(args->philo)[i].left_fork = &args->fork[i];
 		(args->philo)[i].right_fork = &args->fork[(i + 1) % args->num_philo];
+		(args->philo)[i].args = args;
 		i++;
 	}
 }
@@ -83,13 +84,11 @@ bool	args_init(t_args *args)
 	args->philo = malloc(sizeof(t_philo) * args->num_philo);
 	if (!args->philo)
 		return (false);
-	memset(args->philo, 0, sizeof(t_philo) * args->num_philo);
 	args->fork = malloc(sizeof(pthread_mutex_t) * args->num_philo);
 	if (!args->fork)
 	{
 		free(args->philo);
 		return (false);
 	}
-	memset(args->fork, 0, sizeof(pthread_mutex_t) * args->num_philo);
 	return (true);
 }

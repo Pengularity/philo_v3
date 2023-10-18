@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 01:49:59 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/17 21:43:58 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/18 11:55:37 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static inline bool	eat(t_philo *philo)
 	ft_sleep(philo->args->time_to_sleep);
 	pthread_mutex_lock(&philo->times_eaten_m);
 	philo->times_eaten++;
+	printf("philo %d has eaten %d times\n", philo->id, philo->times_eaten);
 	pthread_mutex_unlock(&philo->times_eaten_m);
 	if (philo->id & 1)
 	{
@@ -77,14 +78,14 @@ static inline bool	sleep_and_think(t_philo *philo)
 bool	check_flag(t_args *args)
 {
 	pthread_mutex_lock(&args->is_dead_m);
-	if (args->is_dead <= 0)
-		return (pthread_mutex_unlock(&args->is_dead_m), false);
+	if (args->is_dead >= 0)
+		return (pthread_mutex_unlock(&args->is_dead_m), true);
 	pthread_mutex_unlock(&args->is_dead_m);
 	pthread_mutex_lock(&args->all_ate_required_times_m);
-	if (args->all_ate_required_times <= 0)
-		return (pthread_mutex_unlock(&args->all_ate_required_times_m), false);
+	if (args->all_ate_required_times >= 0)
+		return (pthread_mutex_unlock(&args->all_ate_required_times_m), true);
 	pthread_mutex_unlock(&args->all_ate_required_times_m);
-	return (true);
+	return (false);
 }
 
 void	*philo_routine(void *void_philo)
@@ -95,7 +96,7 @@ void	*philo_routine(void *void_philo)
 	while (!check_flag(philo->args))
 	{
 		if (!(philo->id & 1))
-			ft_sleep(500);
+			ft_sleep(50);
 		if (!eat(philo))
 			break ;
 		if (!sleep_and_think(philo))
