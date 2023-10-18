@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 01:33:19 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/17 21:23:14 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/18 13:24:30 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	run_simulation(t_args *args)
 	{
 		args->philo[i].last_meal = current_time();
 		if (pthread_create(&args->philo[i].thread_id, NULL,
-				philo_routine, &args->philo[i]))
+				(void *)philo_routine, &args->philo[i]))
 		{
 			while (i > 0)
 			{

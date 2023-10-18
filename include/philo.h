@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 00:46:09 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/17 21:11:01 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/18 13:23:58 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ bool		args_init(t_args *args);
 
 /*routine*/
 
-void		*philo_routine(void *void_philo);
+void		*philo_routine(t_philo *philo);
 bool		check_flag(t_args *args);
 
 /* mutex */
