@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 01:25:54 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/18 17:16:30 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/19 00:58:29 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,12 @@ bool	print_status(t_philo *philo, char *color, char *status)
 
 	time = current_time() - philo->args->start_time;
 	pthread_mutex_lock(&philo->args->print_m);
+	pthread_mutex_lock(&philo->args->is_dead_m);
 	if (philo->args->is_dead > 0 && !strcmp(status, "died") == 0)
-		return (pthread_mutex_unlock(&philo->args->print_m), false);
+		return (pthread_mutex_unlock(&philo->args->is_dead_m),
+			pthread_mutex_unlock(&philo->args->print_m), false);
 	ret = printf("%ld %d %s%s%s\n", time, philo->id, color, status, RESET);
+	pthread_mutex_unlock(&philo->args->is_dead_m);
 	pthread_mutex_unlock(&philo->args->print_m);
 	return (ret >= 0);
 }
@@ -51,27 +54,50 @@ long int	current_time(void)
 	return (time);
 }
 
-void	ft_sleep(long time_in_ms)
-{
-	long	start_time;
-	long	elapsed_time;
+// void	ft_sleep(long time_in_ms)
+// {
+// 	long	start_time;
+// 	long	elapsed_time;
 
-	start_time = current_time();
-	elapsed_time = 0;
-	while (elapsed_time < time_in_ms)
+// 	start_time = current_time();
+// 	elapsed_time = 0;
+// 	while (elapsed_time < time_in_ms)
+// 	{
+// 		if (time_in_ms - elapsed_time > 100)
+// 			usleep(10 * 1000);
+// 		else
+// 			usleep((time_in_ms - elapsed_time) * 1000);
+// 		elapsed_time = current_time() - start_time;
+// 	}
+// }
+
+bool	ft_sleep(t_args *args, int time_duration)
+{
+	int	time;
+
+	time = current_time() - args->start_time;
+	while ((current_time() - args->start_time)
+		- time < time_duration)
 	{
-		if (time_in_ms - elapsed_time > 100)
-			usleep(10 * 1000);
-		else
-			usleep((time_in_ms - elapsed_time) * 1000);
-		elapsed_time = current_time() - start_time;
+		pthread_mutex_lock(&args->all_ate_required_times_m);
+		pthread_mutex_lock(&args->is_dead_m);
+		if (args->is_dead == 1 || args->all_ate_required_times == 1)
+		{
+			pthread_mutex_unlock(&args->all_ate_required_times_m);
+			pthread_mutex_unlock(&args->is_dead_m);
+			return (true);
+		}
+		pthread_mutex_unlock(&args->all_ate_required_times_m);
+		pthread_mutex_unlock(&args->is_dead_m);
+		usleep(125);
 	}
+	return (false);
 }
 
 void	free_args(t_args *args)
 {
 	if (args->all_ate_required_times == 1)
-		printf(GREEN "Each philo ate %d times\n", args->num_must_eat);
+		printf(GREEN "Each philo ate %d times\n" RESET, args->num_must_eat);
 	free(args->philo);
 	free(args->fork);
 }

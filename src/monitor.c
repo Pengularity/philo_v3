@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 18:46:48 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/18 17:15:35 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/19 00:34:40 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,9 @@ void	monitor_status(t_args *args)
 {
 	int	i;
 
-	usleep(100);
+	usleep(125);
 	while (!check_death(args) && !ate_enough(args))
-		usleep(800);
+		usleep(500);
 	i = 0;
 	while (i < args->num_philo)
 	{

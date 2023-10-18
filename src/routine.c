@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 01:49:59 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/18 17:16:48 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/19 00:57:13 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static inline bool	eat(t_philo *philo)
 	pthread_mutex_lock(&philo->last_meal_m);
 	philo->last_meal = current_time();
 	pthread_mutex_unlock(&philo->last_meal_m);
-	ft_sleep(philo->args->time_to_eat);
+	ft_sleep(philo->args, philo->args->time_to_eat);
 	pthread_mutex_lock(&philo->times_eaten_m);
 	philo->times_eaten++;
 	pthread_mutex_unlock(&philo->times_eaten_m);
@@ -66,24 +66,9 @@ static inline bool	eat(t_philo *philo)
 
 static inline bool	sleep_and_think(t_philo *philo)
 {
-	int	intervals;
-	int	interval_duration;
-	int	i;
-
-	intervals = 50;
-	interval_duration = (philo->args->time_to_sleep * 1000) / intervals;
-	i = 0;
 	if (!print_status(philo, BLUE, "is sleeping"))
 		return (false);
-	while (i < intervals)
-	{
-		usleep(interval_duration);
-		pthread_mutex_lock(&philo->args->is_dead_m);
-		if (philo->args->is_dead == 1)
-			return (pthread_mutex_unlock(&philo->args->is_dead_m), false);
-		pthread_mutex_unlock(&philo->args->is_dead_m);
-		i++;
-	}
+	ft_sleep(philo->args, philo->args->time_to_sleep);
 	if (!print_status(philo, GREEN, "is thinking"))
 		return (false);
 	return (true);
@@ -109,20 +94,20 @@ void	*philo_routine(t_philo *philo)
 		pthread_mutex_lock(philo->left_fork);
 		print_status(philo, GREY, "has taken a fork");
 		while (check_flag(philo->args))
-			ft_sleep(125);
+			ft_sleep(philo->args, 125);
 		pthread_mutex_unlock(philo->left_fork);
 		return (NULL);
 	}
 	while (!check_flag(philo->args))
 	{
 		if (!(philo->id & 1))
-			usleep(500);
+			usleep(125);
 		if (!eat(philo))
 			break ;
 		if (!sleep_and_think(philo))
 			break ;
 		usleep((philo->args->time_to_eat > philo->args->time_to_sleep)
-			* (philo->args->time_to_eat - philo->args->time_to_sleep) + 25);
+			* (philo->args->time_to_eat - philo->args->time_to_sleep) + 125);
 	}
 	return (NULL);
 }

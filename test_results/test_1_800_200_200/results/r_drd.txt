@@ -1,0 +1,11 @@
+==1554378== drd, a thread error detector
+==1554378== Copyright (C) 2006-2020, and GNU GPL'd, by Bart Van Assche.
+==1554378== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==1554378== Command: ./philo 1 800 200 200
+==1554378== 
+==1554378== 
+==1554378== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 8 from 4)
+--1554378-- 
+--1554378-- used_suppression:      8 drd-ld /usr/libexec/valgrind/default.supp:566
+==1554378== 
+==1554378== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 8 from 4)

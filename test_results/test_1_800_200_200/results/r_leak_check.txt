@@ -1,0 +1,13 @@
+==1554330== Memcheck, a memory error detector
+==1554330== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==1554330== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==1554330== Command: ./philo 1 800 200 200
+==1554330== 
+==1554330== 
+==1554330== HEAP SUMMARY:
+==1554330==     in use at exit: 0 bytes in 0 blocks
+==1554330==   total heap usage: 4 allocs, 4 frees, 4,536 bytes allocated
+==1554330== 
+==1554330== All heap blocks were freed -- no leaks are possible
+==1554330== 
+==1554330== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

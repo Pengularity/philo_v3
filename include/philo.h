@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 00:46:09 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/18 17:16:21 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/18 18:58:46 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ void		free_args(t_args *args);
 int			ft_error(char *str);
 bool		print_status(t_philo *philo, char *color, char *status);
 long int	current_time(void);
-void		ft_sleep(long time_in_ms);
+// void		ft_sleep(long time_in_ms);
+bool		ft_sleep(t_args *args, int time_duration);
 
 /* parse_init */
 
