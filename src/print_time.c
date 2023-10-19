@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 01:25:54 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/19 00:58:29 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/19 20:23:49 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,45 +54,48 @@ long int	current_time(void)
 	return (time);
 }
 
-// void	ft_sleep(long time_in_ms)
-// {
-// 	long	start_time;
-// 	long	elapsed_time;
-
-// 	start_time = current_time();
-// 	elapsed_time = 0;
-// 	while (elapsed_time < time_in_ms)
-// 	{
-// 		if (time_in_ms - elapsed_time > 100)
-// 			usleep(10 * 1000);
-// 		else
-// 			usleep((time_in_ms - elapsed_time) * 1000);
-// 		elapsed_time = current_time() - start_time;
-// 	}
-// }
-
 bool	ft_sleep(t_args *args, int time_duration)
 {
-	int	time;
+	long	start_time;
+	long	elapsed_time;
+	long	time;
 
-	time = current_time() - args->start_time;
-	while ((current_time() - args->start_time)
-		- time < time_duration)
+	time = args->start_time;
+	start_time = current_time();
+	elapsed_time = time - time;
+	while (elapsed_time < time_duration)
 	{
-		pthread_mutex_lock(&args->all_ate_required_times_m);
-		pthread_mutex_lock(&args->is_dead_m);
-		if (args->is_dead == 1 || args->all_ate_required_times == 1)
-		{
-			pthread_mutex_unlock(&args->all_ate_required_times_m);
-			pthread_mutex_unlock(&args->is_dead_m);
-			return (true);
-		}
-		pthread_mutex_unlock(&args->all_ate_required_times_m);
-		pthread_mutex_unlock(&args->is_dead_m);
-		usleep(125);
+		if (time_duration - elapsed_time > 100)
+			usleep(5 * 1000);
+		else
+			usleep((time_duration - elapsed_time) * 1000);
+		elapsed_time = current_time() - start_time;
 	}
 	return (false);
 }
+
+// bool	ft_sleep(t_args *args, int time_duration)
+// {
+// 	int	time;
+
+// 	time = current_time() - args->start_time;
+// 	while ((current_time() - args->start_time)
+// 		- time < time_duration)
+// 	{
+// // 		pthread_mutex_lock(&args->all_ate_required_times_m);
+// // 		pthread_mutex_lock(&args->is_dead_m);
+// // 		if (args->is_dead == 1 || args->all_ate_required_times == 1)
+// // 		{
+// // 			pthread_mutex_unlock(&args->all_ate_required_times_m);
+// // 			pthread_mutex_unlock(&args->is_dead_m);
+// // 			return (true);
+// // 		}
+// // 		pthread_mutex_unlock(&args->all_ate_required_times_m);
+// // 		pthread_mutex_unlock(&args->is_dead_m);
+// 		usleep(500);
+// 	}
+// 	return (false);
+// }
 
 void	free_args(t_args *args)
 {

@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 01:49:59 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/19 00:57:13 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/19 20:37:10 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static inline bool	pickup_forks(t_philo *philo)
 {
-	if (philo->id & 1)
+	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(philo->left_fork);
 		if (!print_status(philo, GREY, "has taken a fork"))
@@ -31,8 +31,8 @@ static inline bool	pickup_forks(t_philo *philo)
 			return (pthread_mutex_unlock(philo->right_fork), false);
 		pthread_mutex_lock(philo->left_fork);
 		if (!print_status(philo, GREY, "has taken a fork"))
-			return (pthread_mutex_unlock(philo->left_fork),
-				pthread_mutex_unlock(philo->right_fork), false);
+			return (pthread_mutex_unlock(philo->right_fork),
+				pthread_mutex_unlock(philo->left_fork), false);
 	}
 	return (true);
 }
@@ -89,6 +89,10 @@ bool	check_flag(t_args *args)
 
 void	*philo_routine(t_philo *philo)
 {
+	if (!print_status(philo, GREEN, "is thinking"))
+		return (false);
+	if (philo->id % 2 != 0)
+		ft_sleep(philo->args, philo->args->time_to_eat);
 	if (philo->args->num_philo == 1)
 	{
 		pthread_mutex_lock(philo->left_fork);
@@ -100,14 +104,14 @@ void	*philo_routine(t_philo *philo)
 	}
 	while (!check_flag(philo->args))
 	{
-		if (!(philo->id & 1))
-			usleep(125);
-		if (!eat(philo))
+		if (!eat(philo) || check_flag(philo->args))
 			break ;
-		if (!sleep_and_think(philo))
+		if (!sleep_and_think(philo) || check_flag(philo->args))
 			break ;
-		usleep((philo->args->time_to_eat > philo->args->time_to_sleep)
-			* (philo->args->time_to_eat - philo->args->time_to_sleep) + 125);
+		ft_sleep(philo->args,
+			((philo->args->time_to_eat > philo->args->time_to_sleep)
+				* (philo->args->time_to_eat
+					- philo->args->time_to_sleep) + 5));
 	}
 	return (NULL);
 }
