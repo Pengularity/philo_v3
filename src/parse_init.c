@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 19:51:00 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/18 11:11:30 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/19 20:59:35 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ static bool	set_values(t_args *args, char **av, int ac)
 {
 	if (!ft_atoi(&args->num_philo, av[1]))
 		return (false);
-	if (!ft_atol(&args->time_to_die, av[2]))
+	if (!ft_atoi(&args->time_to_die, av[2]))
 		return (false);
-	if (!ft_atol(&args->time_to_eat, av[3]))
+	if (!ft_atoi(&args->time_to_eat, av[3]))
 		return (false);
-	if (!ft_atol(&args->time_to_sleep, av[4]))
+	if (!ft_atoi(&args->time_to_sleep, av[4]))
 		return (false);
 	if (ac == 6)
 	{

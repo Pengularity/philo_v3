@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 00:46:09 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/18 18:58:46 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/19 20:59:09 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ typedef struct s_philo
 typedef struct s_args
 {
 	int				num_philo;
-	long			time_to_die;
-	long			time_to_eat;
-	long			time_to_sleep;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
 	long			start_time;
 	int				num_must_eat;
 	int				is_dead;
