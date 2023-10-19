@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 01:25:54 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/19 20:23:49 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/19 22:46:11 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ bool	print_status(t_philo *philo, char *color, char *status)
 	time = current_time() - philo->args->start_time;
 	pthread_mutex_lock(&philo->args->print_m);
 	pthread_mutex_lock(&philo->args->is_dead_m);
-	if (philo->args->is_dead > 0 && !strcmp(status, "died") == 0)
+	if (philo->args->is_dead > 0 && !(ft_strcmp(status, "died") == 0))
 		return (pthread_mutex_unlock(&philo->args->is_dead_m),
 			pthread_mutex_unlock(&philo->args->print_m), false);
 	ret = printf("%ld %d %s%s%s\n", time, philo->id, color, status, RESET);

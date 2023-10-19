@@ -2,9 +2,9 @@ NAME = philo
 
 INCLUDE = ./include/
 
-CC = gcc
+CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -I$(INCLUDE)
+CFLAGS = -Wall -Wextra -Werror -I$(INCLUDE) -MMD
 
 SRCS = src/main.c \
 			src/monitor.c \
@@ -17,6 +17,8 @@ SRCS = src/main.c \
 
 OBJS = $(SRCS:.c=.o)
 
+DEPS = $(SRCS:.c=.d)
+
 all: $(NAME)
 
 $(NAME): $(OBJS) $(INCLUDE)
@@ -28,10 +30,13 @@ $(NAME): $(OBJS) $(INCLUDE)
 
 clean:
 	rm -f $(OBJS)
+	rm -f $(DEPS)
 
 fclean: clean
 	rm -f $(NAME)
 
 re: fclean all
+
+-include $(DEPS)
 
 .PHONY: all clean fclean re
