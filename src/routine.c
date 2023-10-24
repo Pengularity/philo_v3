@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 01:49:59 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/19 20:37:10 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/24 15:40:42 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,17 +91,16 @@ void	*philo_routine(t_philo *philo)
 {
 	if (!print_status(philo, GREEN, "is thinking"))
 		return (false);
-	if (philo->id % 2 != 0)
-		ft_sleep(philo->args, philo->args->time_to_eat);
 	if (philo->args->num_philo == 1)
 	{
 		pthread_mutex_lock(philo->left_fork);
 		print_status(philo, GREY, "has taken a fork");
-		while (check_flag(philo->args))
-			ft_sleep(philo->args, 125);
 		pthread_mutex_unlock(philo->left_fork);
+		usleep(philo->args->time_to_die);
 		return (NULL);
 	}
+	if (philo->id % 2 != 0)
+		ft_sleep(philo->args, philo->args->time_to_eat);
 	while (!check_flag(philo->args))
 	{
 		if (!eat(philo) || check_flag(philo->args))

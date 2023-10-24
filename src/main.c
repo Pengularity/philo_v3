@@ -6,7 +6,7 @@
 /*   By: wnguyen <wnguyen@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 01:33:19 by wnguyen           #+#    #+#             */
-/*   Updated: 2023/10/18 13:24:30 by wnguyen          ###   ########.fr       */
+/*   Updated: 2023/10/24 15:47:05 by wnguyen          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,10 @@ int	main(int ac, char **av)
 		return (ft_error("Failed to initialize mutexes"), 1);
 	philo_init(&args);
 	if (!run_simulation(&args))
-	{
 		ft_error("simulation init failed");
-		destroy_mutexes(&args);
-		return (1);
-	}
-	monitor_status(&args);
+	else
+		monitor_status(&args);
 	destroy_mutexes(&args);
 	free_args(&args);
+	return (0);
 }
